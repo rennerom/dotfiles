@@ -31,13 +31,15 @@ function my_git_prompt() {
   INDEX=$(git status --porcelain 2> /dev/null)
   AHEAD=$(git rev-list --count @{u}..HEAD 2> /dev/null)
   BEHIND=$(git rev-list --count HEAD..@{u} 2> /dev/null)
-  STAGED=$(echo "$INDEX" | command grep -E -e '^(D[ M]|[MARC][ MD]) ' | wc -l)
-  UNSTAGED=$(echo "$INDEX" | command grep -E -e '^[ MARC][MD] ' | wc -l)
-  UNTRACKED=$(echo "$INDEX" | grep '^?? ' | wc -l)
+  STAGED=$(echo "$INDEX" | command grep -E -e '^(D[ M]|[MARC][ MD]) ' | wc -l | xargs)
+  UNSTAGED=$(echo "$INDEX" | command grep -E -e '^[ MARC][MD] ' | wc -l | xargs)
+  UNTRACKED=$(echo "$INDEX" | grep '^?? ' | wc -l | xargs)
   STATUS=""
 
 
   if [[ $AHEAD -gt 0 ]] || [[ $BEHIND -gt 0 ]]; then
+
+    # is branch ahead?
     if [[ $AHEAD -gt 0 ]]; then
         STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_AHEAD$AHEAD"
     fi
@@ -46,9 +48,13 @@ function my_git_prompt() {
     if [[ $BEHIND -gt 0 ]]; then
         STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_BEHIND$BEHIND"
     fi
-    STATUS="$STATUS%{$c0%} | "
+    STATUS=" $STATUS%{$c0%}"
   fi
 
+#is branch clean?
+if [ -n "$(git status --porcelain)" ]; then
+  
+  STATUS="$STATUS | "
   
   # is anything staged?
   if [[ $STAGED -gt 0 ]]; then
@@ -64,10 +70,13 @@ function my_git_prompt() {
   if [[ $UNTRACKED -gt 0 ]]; then
     STATUS="$STATUS$ZSH_THEME_GIT_PROMPT_UNTRACKED$UNTRACKED "
   fi
-
+  
+  # clean up last trailing space
   if [[ -n $STATUS ]]; then
-    STATUS=$(echo " $STATUS" | sed 's/ *$//g')
+    STATUS=$(echo "$STATUS" | sed 's/ *$//g')
   fi
+
+fi
 
   echo "$ZSH_THEME_GIT_PROMPT_PREFIX$(my_current_branch)$STATUS$ZSH_THEME_GIT_PROMPT_SUFFIX"
 }
