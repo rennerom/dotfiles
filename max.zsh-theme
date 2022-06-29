@@ -14,6 +14,10 @@ local c6=$(printf "\033[38;5;240m")
 local c7=$(printf "\033[38;5;149m")
 local c8=$(printf "\033[38;5;126m")
 
+local crvhz=$(printf "\u2574")
+local crvup=$(printf "\u256D")
+local crvdn=$(printf "\u2570")
+
 if [ "$TERM" = "linux" ]; then
     c1=$(printf "\033[34;1m")
     c2=$(printf "\033[35m")
@@ -92,8 +96,8 @@ function my_current_branch() {
 # }
 
 dir_status="%{$c1%}%n%{$c4%}@%{$c0%}%{$c2%}%m%{$c0%} %{$c4%}%{$c4b%}%/ %{$c0%}(%{$c5%}%?%{$c0%})"
-PROMPT='${dir_status} ${ret_status}%{$reset_color%}$(my_git_prompt)
-> '
+PROMPT='$crvup$crvhz${dir_status} ${ret_status}%{$reset_color%}$(my_git_prompt)
+$crvdn$crvhz'
 
 #ZSH_THEME_PROMPT_RETURNCODE_PREFIX="%{$fg_bold[red]%}"
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$c5%}git%{$c0%}(%{$c5%}"
