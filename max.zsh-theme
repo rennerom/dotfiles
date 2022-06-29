@@ -54,7 +54,7 @@ function my_git_prompt() {
 #is branch clean?
 if [ -n "$(git status --porcelain)" ]; then
   
-  STATUS="$STATUS | "
+  STATUS="$STATUS %{$c0%}| "
   
   # is anything staged?
   if [[ $STAGED -gt 0 ]]; then
@@ -103,4 +103,4 @@ ZSH_THEME_GIT_PROMPT_STAGED="%{$fg_bold[green]%}+"
 ZSH_THEME_GIT_PROMPT_UNSTAGED="%{$c3%}!"
 ZSH_THEME_GIT_PROMPT_UNTRACKED="%{$fg_bold[white]%}?"
 ZSH_THEME_GIT_PROMPT_UNMERGED="%{$fg_bold[red]%}✕"
-ZSH_THEME_GIT_PROMPT_SUFFIX="$fg_bold[white])%{$c0%}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$c0%})%{$c0%}"
