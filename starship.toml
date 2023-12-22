@@ -1,0 +1,51 @@
+format = """
+$shell\
+$username\
+$hostname\
+$directory\
+$git_branch\
+$git_commit\
+$git_state\
+$git_metrics\
+$git_status\
+$line_break\
+$conda \
+$character"""
+
+[shell]
+unknown_indicator = '-?-'
+style = 'cyan bold'
+format = '\[[$indicator]($style)\] '
+disabled = false
+
+[directory]
+truncation_length = 1
+truncation_symbol = '…/'
+fish_style_pwd_dir_length = 1
+
+[package]
+disabled = true
+
+[hostname]
+ssh_symbol = " "
+
+[username]
+style_user = "bold dimmed blue"
+show_always = false
+
+[conda]
+format = '[\(${symbol}${environment}\)]($style)'
+symbol = " "
+ignore_base = false
+
+[docker_context]
+symbol = " "
+
+[git_branch]
+symbol = " "
+
+[nodejs]
+symbol = " "
+
+[rlang]
+disabled = true
